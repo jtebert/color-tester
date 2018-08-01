@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Color Picker</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+
+        <input id="hue" type="range" min="0" max="360" value="180" class="range white"/>
+        <input id="sat" type="range" min="0" max="1" step="any" value="0.5"
+        class="range white"/>
+        <input id="val" type="range" min="0" max="1" step="any" value="0.5"
+        class="range white"/>
+
+        <div id="box"></div>
+
+    </body>
+</html>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+<script src="https://d3js.org/d3-hsv.v0.1.min.js"></script>
+<script src="picker.js"></script>
