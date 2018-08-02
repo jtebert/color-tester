@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Color Grid</title>
+    <link rel="stylesheet" href="grid.css">
+    <link rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,800"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <main>
+            <aside>
+                <div class="color-box blue">
+                    <input type="text" class="color" size=7 value="#3F88C5"
+                    maxlength="7" spellcheck="false">
+                </div>
+                <div class="color-box red">
+                        <input type="text" class="color" size=7 value="#D00000"
+                        maxlength="7" spellcheck="false">
+                </div>
+                <div class="color-box yellow">
+                    <input type="text" class="color" size=7 value="#FFBA08"
+                    maxlength="7" spellcheck="false">
+                </div>
+                <div class="color-box light">
+                        <input type="text" class="color" size=7 value="#F4F6F7"
+                        maxlength="7" spellcheck="false">
+                </div>
+                <div class="color-box purple">
+                        <input type="text" class="color" size=7 value="#731963"
+                        maxlength="7" spellcheck="false">
+                </div>
+                <i id="add-color" class="fa fa-plus-circle fa-6x"></i>
+            </aside>
+            <article>
+                <div class="row">
+                    <div class="column light">
+                        <div class="text-blue">
+                            <h1>Heading</h1>
+                            <p>
+                                Praesent vitae mauris iaculis, tincidunt nisl a, fringilla mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque mi dui, consequat vel vulputate sed, hendrerit nec mauris. Nunc vitae consectetur quam. Sed feugiat diam sed arcu molestie, quis dapibus dui euismod. In sollicitudin est id nibh iaculis dapibus.
+                            </p>
+                        </div>
+                        <div class="text-red">
+                            <h1>Heading</h1>
+                            <p>
+                                Pellentesque aliquam purus mauris, at egestas nisi ullamcorper consequat. Pellentesque leo turpis, consequat ut odio semper, semper placerat ligula. Nam eget velit nec ligula accumsan mollis. Curabitur iaculis massa consequat lobortis molestie. Sed ligula diam, dictum sit amet efficitur ac, facilisis viverra mi. Donec fermentum id augue et tincidunt.
+                            </p>
+                        </div>
+                        <div class="text-yellow">
+                            <h1>Heading</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nisi molestie, pellentesque dolor in, sodales libero. Nam eu cursus leo, non euismod felis. Vivamus semper risus non iaculis fringilla. Sed dignissim nibh vitae odio pharetra, id pulvinar est sollicitudin. Pellentesque blandit velit nibh, eget tempus eros venenatis sed. Cras scelerisque, mi in iaculis vulputate, purus diam auctor arcu, at tincidunt lacus magna vitae justo.
+                            </p>
+                        </div>
+                        <div class="text-purple">
+                            <h1>Heading</h1>
+                            <p>
+                                Pellentesque aliquam purus mauris, at egestas nisi ullamcorper consequat. Pellentesque leo turpis, consequat ut odio semper, semper placerat ligula. Nam eget velit nec ligula accumsan mollis. Curabitur iaculis massa consequat lobortis molestie. Sed ligula diam, dictum sit amet efficitur ac, facilisis viverra mi. Donec fermentum id augue et tincidunt. Aenean lorem purus, congue non justo vitae, mollis vulputate nunc.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="column dark">
+                        <div class="text-blue">
+                            <h1>Heading</h1>
+                            <p>
+                                Praesent vitae mauris iaculis, tincidunt nisl a, fringilla mauris. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque mi dui, consequat vel vulputate sed, hendrerit nec mauris. Nunc vitae consectetur quam. Sed feugiat diam sed arcu molestie, quis dapibus dui euismod. In sollicitudin est id nibh iaculis dapibus. In hac habitasse platea dictumst.
+                            </p>
+                        </div>
+                        <div class="text-red">
+                            <h1>Heading</h1>
+                            <p>
+                                Pellentesque aliquam purus mauris, at egestas nisi ullamcorper consequat. Pellentesque leo turpis, consequat ut odio semper, semper placerat ligula. Nam eget velit nec ligula accumsan mollis. Curabitur iaculis massa consequat lobortis molestie. Sed ligula diam, dictum sit amet efficitur ac, facilisis viverra mi. Donec fermentum id augue et tincidunt.
+                            </p>
+                        </div>
+                        <div class="text-yellow">
+                            <h1>Heading</h1>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nisi molestie, pellentesque dolor in, sodales libero. Nam eu cursus leo, non euismod felis. Vivamus semper risus non iaculis fringilla. Sed dignissim nibh vitae odio pharetra, id pulvinar est sollicitudin. Pellentesque blandit velit nibh, eget tempus eros venenatis sed. Cras scelerisque, mi in iaculis vulputate, purus diam auctor arcu, at tincidunt lacus magna vitae justo.
+                            </p>
+                        </div>
+                        <div class="text-purple">
+                            <h1>Heading</h1>
+                            <p>
+                                Pellentesque aliquam purus mauris, at egestas nisi ullamcorper consequat. Pellentesque leo turpis, consequat ut odio semper, semper placerat ligula. Nam eget velit nec ligula accumsan mollis. Curabitur iaculis massa consequat lobortis molestie. Sed ligula diam, dictum sit amet efficitur ac, facilisis viverra mi. Donec fermentum id augue et tincidunt.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column light">
+                        <div class="chart-container">
+                            <canvas class="chart" id="myChartLight" width="800" height="600"></canvas>
+                        </div>
+                    </div>
+                    <div class="column dark">
+                        <div class="chart-container">
+                            <canvas class="chart" id="myChartDark" width="800" height="600"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column light">
+                        <pre><code class="python">
+def hello(world):
+    print("Hello {}".format(world))
+                        </code></pre>
+                    </div>
+                    <div class="column dark">
+
+                    </div>
+                </div>
+            </article>
+        </main>
+    </div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<script>
+
+    hljs.initHighlightingOnLoad();
+
+    var colors = {
+        blue: '#3F88C5',
+        red: '#D00000',
+        yellow: '#FFBA08',
+        purple: '#731963',
+        light: '#F4F6F7',
+        dark: '#1d1c25',
+        //gray: '#ff0000'
+        gray: 'rgba(127,127,127,1)',
+    }
+
+    Chart.defaults.global.elements.line.borderWidth = 2;
+    Chart.defaults.global.elements.line.fill = false;
+    Chart.defaults.global.elements.line.tension = 0.35;
+    Chart.defaults.global.elements.point.radius = 0;
+    Chart.defaults.global.elements.point.borderWidth = 0;
+    Chart.defaults.global.defaultColor = colors['blue'];
+
+
+var chartDict = {
+    type: 'line',
+    data: {
+        labels: [1,2,3,4,5,6,7,8],
+        datasets: [
+            {
+                borderColor: colors.red,
+                backgroundColor: colors.red,
+                data: [1, 2, 4, -1, 3,6,2,6],
+            },
+            {
+                borderColor: colors.blue,
+                backgroundColor: colors.blue,
+                data: [1, 3, 5, 4, 4],
+            },
+        ],
+    },
+    options: {
+        layout: {
+            padding: {
+                left: 8, right: 8, top: 8, bottom: 8,
+            }
+        },
+        responsive: true,
+        tooltips: {enabled: false},
+        legend: {display: false},
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    color: colors.gray,
+                    drawOnChartArea: false,
+                    tickMarkLength: 8,
+                    zeroLineColor: colors.gray
+                },
+                ticks: {
+                    display: false,
+                },
+            }],
+            yAxes: [{
+                gridLines: {
+                    color: colors.gray,
+                    drawOnChartArea: false,
+                    tickMarkLength: 8,
+                    zeroLineColor: colors.gray,
+                },
+                ticks: {
+                    display: false,
+                    beginAtZero: true,
+                    suggestedMax: 7,
+                }
+            }]
+        }
+    }
+};
+
+var ctxLight = document.getElementById("myChartLight").getContext('2d');
+var myChartLight = new Chart(ctxLight, chartDict);
+
+
+var ctxDark = document.getElementById("myChartDark").getContext('2d');
+var myChartDark = new Chart(ctxDark, chartDict);
+</script>
+
+</html>
