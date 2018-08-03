@@ -12,18 +12,18 @@
     <div class="color">
       <input type="text" maxlength="7" placeholder="#000000"
         v-bind:style="{ color: colors.hex}" v-model="colors.hex"
-        @change="onChangeHex"  @input="onChangeHex" />
+        v-on:change="onChangeHex" />
     </div>
     <p> {{ colors }}</p>
 
     <vue-slider v-model="colors.hsv.h"></vue-slider>
 
     <input id="hue" type="range" min="0" max="360" class="range white"
-      v-model="colors.hsv.h" @change="onChange"  @input="onChange"/>
+      v-model="colors.hsv.h" v-on:change="onChange" v-on:input="onChange"/>
     <input id="sat" type="range" min="0" max="1" step="any" class="range white"
-      v-model="colors.hsv.s" @change="onChange" @input="onChange" />
+      v-model="colors.hsv.s" v-on:change="onChange" v-on:input="onChange" />
     <input id="val" type="range" min="0" max="1" step="any" class="range white"
-      v-model="colors.hsv.v" @change="onChange" @input="onChange" />
+      v-model="colors.hsv.v" v-on:change="onChange" v-on:input="onChange" />
 
     <div id="box" v-bind:style="{ backgroundColor: colors.hex}"></div>
 
@@ -32,7 +32,6 @@
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js"></script>
   <script>
-
     var initColor = tinycolor.random();
     var initHSV = initColor.toHsv();
 
@@ -40,21 +39,29 @@
       // Data is either h, s, or v (from sliders)
       // Or a hex from text box
       var color
-
+      /*
       if (source === 'hex') {
         color = tinycolor(data.hsv)
       }
+      */
+
+      console.log("SOURCE", source)
+      console.log("DATA", data)
 
       // hsl is better than hex between conversions
-      if (data && data.hsv) {
+      if (data && data.hsv && source === 'hsv') {
         console.log("HSV", data.hsv)
         color = tinycolor(data.hsv)
-      } else if (data && data.hex && data.hex.length > 0) {
-        console.log("HEX", hex)
+      } else if (data && data.hex && source === 'hex') {
+        console.log("HEX", data.hex)
         color = tinycolor(data.hex)
+      } else if (data && source === 'tinycolor') {
+        console.log("TINYCOLOR")
+        color = data
+        console.log(color)
       } else {
-        console.log("INVALID")
-        console.log(data)
+        console.log('INVALID')
+        console.log(source, data)
         color = tinycolor(data)
       }
 
@@ -91,15 +98,16 @@
 
     var app = new Vue({
       el: '#app',
+      props: ['value'],
       data() {
         return {
-          colors: _colorChange(initHSV, 'hsv')
+          color: _colorChange(initColor, 'tinycolor')
         }
       },
       computed: {
         colors: {
           get() {
-            return this.val
+            return this.color
           },
           set(newVal) {
             this.val = newVal
@@ -109,10 +117,12 @@
       },
       methods: {
         onChangeHex() {
-          this.colors =Vue.nextTick(_colorChange(this.colors, 'hex'))
+          var context = this.color
+          this.colors = Vue.nextTick(_colorChange(context, 'hex'))
         },
         onChange () {
-          this.colors =Vue.nextTick(_colorChange(this.colors, 'hsv'))
+          var context = this.color
+          this.colors = Vue.nextTick(_colorChange(context, 'hsv'))
         },
       },
     })
