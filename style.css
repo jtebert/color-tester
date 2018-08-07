@@ -5,6 +5,8 @@ html, body {
   height: 100%;
   min-height: 100%;
   width: 100%;
+  background-color: #1F2D3D;
+  color: #1F2D3D;
 }
 
 #app {
@@ -12,19 +14,21 @@ html, body {
   height: 100%;
 }
 
-.darkText {
+.lightText {
   color: #fff;
 }
+.darkText {
+  color: #1F2D3D;
+}
 
-#box {
-  width: 300px;
-  height: 200px;
+.color-picker {
   margin: 64px auto;
-  display: block;
+  display: inline-block;
 }
 
 input[type="text"].hex-input {
   font-family: "Montserrat", "Helvetica Neue", "Arial", sans-serif;
+  width: 430px;
   position: relative;
   display: block;
   margin: auto;

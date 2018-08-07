@@ -4,31 +4,118 @@
 <head>
   <meta charset="utf-8">
   <title>Color Picker</title>
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:700" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <!--<link rel="stylesheet" href="style.css">-->
+  <link rel="stylesheet" href="grid.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    crossorigin="anonymous">
 </head>
 
 <body>
-  <div id="app" v-bind:class="{ darkText: colors.isDark }"
-      v-bind:style="{backgroundColor: colors.hexStr }" >
-    <input type="text" class="hex-input" maxlength="7" spellcheck="false"
-      v-bind:class="{ darkText: colors.isDark }" v-model="colors.hex"
-      @change="onChangeHex" @input="onChangeHex" />
+  <div class="wrap">
+    <main>
+      <aside id="app" class="lightText">
+        <colorpicker v-for="color in colorPickers" v-bind:hexString="color.hexStr" v-on:color-change="changeColor" v-on:input="console.log($event)"></colorpicker>
+        <!--<div v-for="color in colorPickers">
+          {{ color }}
+        </div>-->
+        <i id="add-color" class="fa fa-plus-circle fa-6x" @click="addColor()"></i>
+      </aside>
+      <article>
+        <div class="row">
+          <div class="column light">
+            <div class="text-blue">
+              <h1>Heading</h1>
+              <p>
+                Praesent vitae mauris iaculis, tincidunt nisl a, fringilla mauris. Pellentesque habitant morbi tristique senectus et netus
+                et malesuada fames ac turpis egestas. Pellentesque mi dui, consequat vel vulputate sed, hendrerit nec mauris.
+                Nunc vitae consectetur quam. Sed feugiat diam sed arcu molestie, quis dapibus dui euismod. In sollicitudin
+                est id nibh iaculis dapibus.
+              </p>
+            </div>
+            <div class="text-red">
+              <h1>Heading</h1>
+              <p>
+                Pellentesque aliquam purus mauris, at egestas nisi ullamcorper consequat. Pellentesque leo turpis, consequat ut odio semper,
+                semper placerat ligula. Nam eget velit nec ligula accumsan mollis. Curabitur iaculis massa consequat lobortis
+                molestie. Sed ligula diam, dictum sit amet efficitur ac, facilisis viverra mi. Donec fermentum id augue et
+                tincidunt.
+              </p>
+            </div>
+            <div class="text-yellow">
+              <h1>Heading</h1>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nisi molestie, pellentesque dolor in, sodales libero.
+                Nam eu cursus leo, non euismod felis. Vivamus semper risus non iaculis fringilla. Sed dignissim nibh vitae
+                odio pharetra, id pulvinar est sollicitudin. Pellentesque blandit velit nibh, eget tempus eros venenatis
+                sed. Cras scelerisque, mi in iaculis vulputate, purus diam auctor arcu, at tincidunt lacus magna vitae justo.
+              </p>
+            </div>
+          </div>
+          <div class="column dark">
+            <div class="text-blue">
+              <h1>Heading</h1>
+              <p>
+                Praesent vitae mauris iaculis, tincidunt nisl a, fringilla mauris. Pellentesque habitant morbi tristique senectus et netus
+                et malesuada fames ac turpis egestas. Pellentesque mi dui, consequat vel vulputate sed, hendrerit nec mauris.
+                Nunc vitae consectetur quam. Sed feugiat diam sed arcu molestie, quis dapibus dui euismod. In sollicitudin
+                est id nibh iaculis dapibus. In hac habitasse platea dictumst.
+              </p>
+            </div>
+            <div class="text-red">
+              <h1>Heading</h1>
+              <p>
+                Pellentesque aliquam purus mauris, at egestas nisi ullamcorper consequat. Pellentesque leo turpis, consequat ut odio semper,
+                semper placerat ligula. Nam eget velit nec ligula accumsan mollis. Curabitur iaculis massa consequat lobortis
+                molestie. Sed ligula diam, dictum sit amet efficitur ac, facilisis viverra mi. Donec fermentum id augue et
+                tincidunt.
+              </p>
+            </div>
+            <div class="text-yellow">
+              <h1>Heading</h1>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet nisi molestie, pellentesque dolor in, sodales libero.
+                Nam eu cursus leo, non euismod felis. Vivamus semper risus non iaculis fringilla. Sed dignissim nibh vitae
+                odio pharetra, id pulvinar est sollicitudin. Pellentesque blandit velit nibh, eget tempus eros venenatis
+                sed. Cras scelerisque, mi in iaculis vulputate, purus diam auctor arcu, at tincidunt lacus magna vitae justo.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column light">
+            <div class="chart-container">
+              <canvas class="chart" id="myChartLight" width="800" height="600"></canvas>
+            </div>
+          </div>
+          <div class="column dark">
+            <div class="chart-container">
+              <canvas class="chart" id="myChartDark" width="800" height="600"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="column light">
+            <pre><code class="python">
+  def hello(world):
+      print("Hello {}".format(world))
+                          </code></pre>
+          </div>
+          <div class="column dark">
 
-    <input id="hue" type="range" min="0" max="360" class="range white"
-      v-bind:style="{ background: hueGrad() }"
-      v-model="colors.hsv.h" @change="onChangeHsv"  @input="onChangeHsv"/>
-    <input id="sat" type="range" min="0" max="1" step="any" class="range white"
-      v-bind:style="{ background: satGrad() }"
-      v-model="colors.hsv.s" @change="onChangeHsv" @input="onChangeHsv" />
-    <input id="val" type="range" min="0" max="1" step="any" class="range white"
-      v-bind:style="{ background: valGrad() }"
-      v-model="colors.hsv.v" @change="onChangeHsv" @input="onChangeHsv" />
+          </div>
+        </div>
+      </article>
+    </main>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.4.1/tinycolor.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+
   <script src="picker.js"></script>
+  <script src="charts.js"></script>
 
 </body>
 
