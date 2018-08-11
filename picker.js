@@ -56,11 +56,23 @@ function _colorChange(data, source) {
   }
 }
 
+Vue.component('textpreview', {
+  props: ['title', 'body', 'color'],
+  template: `<div v-bind:style="{color: color }">
+    <h1>{{ title }}</h1>
+    <p>{{ body }}</p>
+  </div>`
+})
+
 Vue.component('colorpicker', {
+  props: ['id'],
   data() {
     return {
       colors: _colorChange(tinycolor.random().toHsv(), 'tinycolor')
     }
+  },
+  created: function () {
+    this.$emit('color-change', this.id, this.colors.hexStr)
   },
   computed: {
     colors: {
@@ -76,11 +88,11 @@ Vue.component('colorpicker', {
   methods: {
     onChangeHex(data) {
       this.colors = _colorChange(this.colors, 'hex')
-      this.$emit('color-change', this.colors.hexStr)
+      this.$emit('color-change', this.id, this.colors.hexStr)
     },
     onChangeHsv(data) {
       this.colors = _colorChange(this.colors, 'hsv')
-      this.$emit('color-change', this.colors.hexStr)
+      this.$emit('color-change', this.id, this.colors.hexStr)
     },
     hueGrad() {
       c = this.colors.hsv
@@ -140,12 +152,24 @@ new Vue({
   data() {
     return {
       colorPickers: [
-        { 'hexStr': "#333333" },
-        { 'hexStr': '#444EEE' },
-      ]
+        { 'id': 1, 'hexStr': "#FFFFFF" },
+        { 'id': 2, 'hexStr': '#FFFFFF' },
+        { 'id': 3, 'hexStr': '#FFFFFF' },
+      ],
+      nextId: 4,
+      backgroundColorId1: 1,
+      backgroundColorId2: 2,
+      textTitle: this.toTitleCase(chance.sentence({ words: 5 })).slice(0, -1),
+      textBody: chance.paragraph({ sentences: 3 }),
     }
   },
   computed: {
+    backgroundColor1: function () {
+      return this.colorPickers[this.indFromId(this.backgroundColorId1)].hexStr
+    },
+    backgroundColor2: function () {
+      return this.colorPickers[this.indFromId(this.backgroundColorId2)].hexStr
+    },
     computedNoCard1: function () {
       let availableCards = new Set(['card2'])
       return this.cards.filter((item) => {
@@ -155,10 +179,23 @@ new Vue({
   },
   methods: {
     addColor: function () {
-      this.colorPickers.push({ 'hex': '#FFFFFF' })
+      this.colorPickers.push({ id: this.nextId, 'hexStr': '#FFFFFF' })
+      this.nextId++
     },
-    changeColor: function (hex) {
-      console.log("COLOR CHANGE", hex)
+    changeColor: function (id, hex) {
+      var target_ind = this.indFromId(id)
+      this.colorPickers[target_ind].hexStr = hex
     },
+    indFromId: function (id) {
+      return this.colorPickers.findIndex(el => el.id == id)
+    },
+    // https://gist.github.com/SonyaMoisset/aa79f51d78b39639430661c03d9b1058#file-title-case-a-sentence-for-loop-wc-js
+    toTitleCase: function (str) {
+      str = str.toLowerCase().split(' ');
+      for (var i = 0; i < str.length; i++) {
+        str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+      }
+      return str.join(' ');
+    }
   }
 })
