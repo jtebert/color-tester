@@ -17,7 +17,7 @@
     <main id="app">
       <aside class="lightText">
         <!-- COLOR PICKERS -->
-        <colorpicker v-for="color in colorPickers" v-bind:hexString="color.hexStr" v-bind:id='color.id' v-on:color-change="changeColor"
+        <colorpicker v-for="color in colorPickers" v-bind:id='color.id' v-bind:hexinject="color.hexStr" v-on:color-change="changeColor"
           v-on:input="console.log($event)"></colorpicker>
         <i id="add-color" class="fa fa-plus-circle fa-6x" @click="addColor()"></i>
       </aside>
@@ -25,13 +25,11 @@
         <!-- EXAMPLE TEXT PREVIEWS -->
         <div class="row">
           <div class="column" v-bind:style="{ background: backgroundColor1 }">
-
-            <textpreview v-for="color in colorPickers " v-bind:color="color.hexStr " v-bind:title=" textTitle
+            <textpreview v-for="color in colorsOnBg1 " v-bind:color="color.hexStr " v-bind:title=" textTitle
             " v-bind:body="textBody"></textpreview>
           </div>
           <div class="column" v-bind:style="{ background: backgroundColor2 }">
-
-            <textpreview v-for="color in colorPickers " v-bind:color="color.hexStr " v-bind:title="textTitle" v-bind:body="textBody"></textpreview>
+            <textpreview v-for="color in colorsOnBg2" v-bind:color="color.hexStr " v-bind:title="textTitle" v-bind:body="textBody"></textpreview>
           </div>
         </div>
         <!-- EXAMPLE CHARTS -->

@@ -1,3 +1,26 @@
+function randInt(min, max) {
+  // Get a random integer in the range [min, max], inclusive
+  var range = max - min + 1
+  return Math.floor(Math.random() * Math.floor(range)) + min
+}
+
+function randColor(type) {
+  if (type === 'dark') {
+    s = randInt(0, 10)
+    v = randInt(0, 10)
+  } else if (type === 'light') {
+    s = randInt(0, 10)
+    v = randInt(90, 100)
+  } else if (type === 'bright') {
+    s = randInt(50, 100)
+    v = randInt(50, 100)
+  } else {
+    return tinycolor.random()
+  }
+  h = randInt(0, 360)
+  color = tinycolor({ h: h, s: s / 100., v: v / 100. })
+  return color
+}
 
 function _colorChange(data, source) {
   // Data is either h, s, or v (from sliders)
@@ -13,7 +36,7 @@ function _colorChange(data, source) {
     } else {
       color = tinycolor(data.hexStr)
     }
-  } else if (source === 'tinycolor') {
+  } else if (source === 'hexStr' || source === 'tinycolor') {
     color = tinycolor(data)
   } else {
     color = tinycolor(data.hexStr)
@@ -30,15 +53,15 @@ function _colorChange(data, source) {
   // when the hsv.v is less than 0.0164 (base on test)
   // because of possible loss of precision
   // the result of hue and saturation would be miscalculated
-  if (hsv.v < 0.0164) {  // Stuck on black
-    hsv.h = data.h || (data.hsv && data.hsv.h) || 0
-    hsv.s = data.s || (data.hsv && data.hsv.s) || 0
+  if (hsv.v < 0.0164 && data.hsv) {  // Stuck on black
+    hsv.h = (data.hsv && data.hsv.h) || 0
+    hsv.s = (data.hsv && data.hsv.s) || 0
   }
-  if (hsv.s < 0.0164) {  // Stuck on black
-    hsv.h = data.h || (data.hsv && data.hsv.h) || 0
-    hsv.s = data.s || (data.hsv && data.hsv.s) || 0
+  if (hsv.s < 0.0164 && data.hsv) {  // Stuck on black
+    hsv.h = (data.hsv && data.hsv.h) || 0
+    hsv.s = (data.hsv && data.hsv.s) || 0
   }
-  if (hsv.h === 360 || hsv.h === 0) {
+  if (hsv.h === 360 || hsv.h === 0 && data.hsv) {
     // Flips between 0/360 in some cases. Go with whichever value was
     // closer in the previous state
     prev_h = data.hsv.h
@@ -64,14 +87,31 @@ Vue.component('textpreview', {
   </div>`
 })
 
+Vue.component('graphpreview', {
+  props: ['id', 'colors'],
+  data() {
+    return {
+      'chart': this.genChart()
+    }
+  },
+  methods: {
+    genChart: function () {
+      el = document.getElementById('chart-' + this.id)
+      return new Chart(el, chartDict)
+    }
+  },
+  template: `<div id="chart-{{ id }}"></div>`
+})
+
 Vue.component('colorpicker', {
-  props: ['id'],
+  props: ['id', 'hexinject'],
   data() {
     return {
       colors: _colorChange(tinycolor.random().toHsv(), 'tinycolor')
     }
   },
   created: function () {
+    this.colors = _colorChange(this.hexinject, 'hexStr')
     this.$emit('color-change', this.id, this.colors.hexStr)
   },
   computed: {
@@ -127,6 +167,12 @@ Vue.component('colorpicker', {
       return `-webkit-linear-gradient(left, ${valGradStr})`
     }
   },
+  watch: {
+    hexinject: function (newVal, oldVal) {
+      // Update when color is changed from outside
+      this.colors = _colorChange(newVal, 'hexStr')
+    }
+  },
   template: `
     <div class="color-picker" v-bind:class="{ lightText: colors.isDark }"
         v-bind:style="{backgroundColor: colors.hexStr }" >
@@ -152,9 +198,9 @@ new Vue({
   data() {
     return {
       colorPickers: [
-        { 'id': 1, 'hexStr': "#FFFFFF" },
-        { 'id': 2, 'hexStr': '#FFFFFF' },
-        { 'id': 3, 'hexStr': '#FFFFFF' },
+        { 'id': 1, 'hexStr': randColor('light').toHexString() },
+        { 'id': 2, 'hexStr': randColor('dark').toHexString() },
+        { 'id': 3, 'hexStr': randColor('bright').toHexString() },
       ],
       nextId: 4,
       backgroundColorId1: 1,
@@ -170,16 +216,27 @@ new Vue({
     backgroundColor2: function () {
       return this.colorPickers[this.indFromId(this.backgroundColorId2)].hexStr
     },
-    computedNoCard1: function () {
-      let availableCards = new Set(['card2'])
-      return this.cards.filter((item) => {
-        return availableCards.has(item['type'])
-      })
+    colorsOnBg1: function () {
+      var useColors = this.colorPickers.slice(0)
+      ind = this.indFromId(this.backgroundColorId1)
+      if (ind > -1) {
+        useColors.splice(ind, 1);
+      }
+      console.log(useColors)
+      return useColors
+    },
+    colorsOnBg2: function () {
+      var useColors = this.colorPickers.slice(0)
+      ind = this.indFromId(this.backgroundColorId2)
+      if (ind > -1) {
+        useColors.splice(ind, 1);
+      }
+      return useColors
     }
   },
   methods: {
     addColor: function () {
-      this.colorPickers.push({ id: this.nextId, 'hexStr': '#FFFFFF' })
+      this.colorPickers.push({ id: this.nextId, 'hexStr': randColor() })
       this.nextId++
     },
     changeColor: function (id, hex) {
@@ -189,13 +246,12 @@ new Vue({
     indFromId: function (id) {
       return this.colorPickers.findIndex(el => el.id == id)
     },
-    // https://gist.github.com/SonyaMoisset/aa79f51d78b39639430661c03d9b1058#file-title-case-a-sentence-for-loop-wc-js
     toTitleCase: function (str) {
       str = str.toLowerCase().split(' ');
       for (var i = 0; i < str.length; i++) {
         str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
       }
       return str.join(' ');
-    }
+    },
   }
 })
